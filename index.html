@@ -57,6 +57,7 @@
         <script>
             (function() {
                 var peer = new Peer({key: 'lwjd5qra8257b9'});
+                var connectionRequest;
                 peer.on('open', function(id) {
                     document.querySelector("#my-id").innerHTML = id;
                 });
@@ -70,7 +71,6 @@
                     var opponentId = document.querySelector('#opponent-id').value;
                     var conn = peer.connect(opponentId);
                     conn.on('open', function(){
-                        conn.send('hi!');
                     });
                 });
             })();
