@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>WEBRTC</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            .text-input {
+                height: 40px;
+                width: 150px;
+                border-radius: 4px;
+                border: 1px solid #dedede;
+                margin: 10px 0px;
+                padding: 0 10px;
+            }
+            .xox-container {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: 'center';
+                width: 300px
+            }
+            .xox-row {
+                display: flex;
+                width: 100%;
+            }
+            .xox-row .xox-row-item {
+                width: 33.33%;
+                height: 100px;
+                border: 1px solid #dedede;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="person-connect">
+            <input id="opponent-id" class="text-input" type="text" placeholder="Enter other person's id"/>
+        </form>
+        <div id="my-id"></div>
+        <div class="xox-container">
+            <div class="xox-row">
+                <div class="xox-row-item" tile="tile11"></div>
+                <div class="xox-row-item" tile="tile12"></div>
+                <div class="xox-row-item" tile="tile13"></div>
+            </div>
+            <div class="xox-row">
+                <div class="xox-row-item" tile="tile21"></div>
+                <div class="xox-row-item" tile="tile22"></div>
+                <div class="xox-row-item" tile="tile23"></div>
+            </div>
+            <div class="xox-row">
+                <div class="xox-row-item" tile="tile31"></div>
+                <div class="xox-row-item" tile="tile32"></div>
+                <div class="xox-row-item" tile="tile33"></div>
+            </div>
+        </div>
+        <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+        <script>
+            (function() {
+                var peer = new Peer({key: 'lwjd5qra8257b9'});
+                peer.on('open', function(id) {
+                    document.querySelector("#my-id").innerHTML = id;
+                });
+                peer.on('connection', function(conn) {
+                    conn.on('data', function(data){
+                        console.log(data);
+                    });
+                });
+                document.querySelector('#person-connect').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var opponentId = document.querySelector('#opponent-id').value;
+                    var conn = peer.connect(opponentId);
+                    conn.on('open', function(){
+                        conn.send('hi!');
+                    });
+                });
+            })();
+        </script>
+    </body>
+</html>
