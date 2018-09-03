@@ -53,11 +53,12 @@
                 <div class="xox-row-item" tile="tile33"></div>
             </div>
         </div>
-        <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.16/peer.min.js"></script>
         <script>
             (function() {
                 var peer = new Peer({key: 'lwjd5qra8257b9'});
                 var connectionRequest;
+                var conn;
                 peer.on('open', function(id) {
                     document.querySelector("#my-id").innerHTML = id;
                 });
@@ -71,7 +72,14 @@
                     var opponentId = document.querySelector('#opponent-id').value;
                     var conn = peer.connect(opponentId);
                     conn.on('open', function(){
+                        console.log('OPENED');
                     });
+                    document.querySelector('.xox-container').addEventListener('click', function(e) {
+                        conn.send(e.target.getAttribute('tile'));
+                    });
+                    conn.on('data', function(data) {
+                        console.log('Tile Received', data);
+                    })
                 });
             })();
         </script>
